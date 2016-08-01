@@ -1,8 +1,11 @@
 """Server handling general file read/write requests."""
 
 import sys
+import os
 # import sys path so that it recognize our submodules
-sys.path.append('/Users/hthu/Project/Dis_cuss/df')
+pdir = os.path.abspath(os.getcwd() + "/../")
+sys.path.append(pdir)
+
 import api_pb2
 import time
 
