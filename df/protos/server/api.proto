@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package serverApi;
+
+import "meta/filemeta.proto";
+
+// request to write a file into our file system
+message WriteRequest {
+  // required, file path under our file system
+  string path = 1;
+  // the byte size of this file, so that the write response
+  // can handle a proper chunking
+  uint64 bsize = 2;
+  // optional umask that stands for default file access level
+  uint32 umask = 3;
+}
+
+message WriteResponse {
+  repeated meta.FileChunk chunks = 1;
+}
+
+// request to write a file into our file system
+message ReadRequest {
+  // required, file path under our file system
+  string path = 1;
+}
+
+message ReadResponse {
+  repeated meta.FileChunk chunks = 1;
+}
+
+service FileAPI {
+  // send a write request
+  rpc Write (WriteRequest) returns (WriteResponse) {}
+  // send a read request
+  rpc Read (ReadRequest) returns (ReadResponse) {}
+}

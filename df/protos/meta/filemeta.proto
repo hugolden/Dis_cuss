@@ -1,0 +1,59 @@
+// using proto3
+syntax = "proto3";
+
+package meta;
+
+message Modifiers {
+  // general read, write, execute privilege
+  uint32 read = 1;
+  uint32 write = 2;
+  uint32 execute = 3;
+}
+
+// Linux like File Access control
+message FileAccess {
+  Modifiers owner = 1;
+  Modifiers ugroup = 2;
+  Modifiers other = 3;
+}
+
+message FileChunk {
+  // required, host:port of this chunk get stored
+  string fqdn = 1;
+  // required, specify the order of this chunk in the file
+  int32 seq = 2;
+  // required, byte length of this chunk, MAX to be 67108864 bytes (64Mb)
+  int64 bytesize = 3;
+  // required, the actual path in storage system
+  string path = 4;
+}
+
+message File {
+  // required, specify this file is which replica
+  int32 replicaID = 1;
+  // all the file chunks of this file
+  repeated FileChunk chunks = 2;
+  // access control for a file
+  FileAccess faccess = 3;
+}
+
+// distributed files
+// should contain $(replicas) count of File
+message DFile {
+  // required, specify how many replicas
+  int32 repilcas = 1;
+  // all the replicas files stored
+  repeated File files = 2;
+}
+
+// Directory structure
+message Directory {
+  // directory absolute path
+  string dir = 1;
+  // all files under this directory
+  repeated File files = 2;
+  // all directories under this
+  repeated Directory dirs = 3;
+  // access control for a dir
+  FileAccess daccess = 4;
+}
