@@ -29,9 +29,21 @@ message ReadResponse {
   repeated meta.FileChunk chunks = 1;
 }
 
+message ExistRequest {
+  // required, to see if a file/dir exists or not
+  string path = 1;
+}
+
+message ExistResponse {
+  // required, tell if a file/dir exists
+  bool exists = 1;
+}
+
 service FileAPI {
   // send a write request
   rpc Write (WriteRequest) returns (WriteResponse) {}
   // send a read request
   rpc Read (ReadRequest) returns (ReadResponse) {}
+  // send a request to see if a file/dir exists
+  rpc Exist (ExistRequest) returns (ExistResponse) {}
 }
