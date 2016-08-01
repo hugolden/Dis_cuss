@@ -4,7 +4,8 @@ import sys
 import os
 import pickle
 # import sys path so that it recognize our submodules
-pdir = os.path.abspath(os.getcwd() + "/../../")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+pdir = os.path.abspath(dir_path + "/../../")
 sys.path.append(pdir)
 
 from df.py_gen import api_pb2
